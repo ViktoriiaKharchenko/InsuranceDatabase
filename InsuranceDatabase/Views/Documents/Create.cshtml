@@ -1,0 +1,54 @@
+﻿@model InsuranceDatabase.Documents
+
+@{
+    ViewData["Title"] = "Create";
+}
+    <hr />
+<h4>Додати договір</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Number" class="control-label"></label>
+                <input asp-for="Number" class="form-control" />
+                <span asp-validation-for="Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sum" class="control-label"></label>
+                <input asp-for="Sum" class="form-control" />
+                <span asp-validation-for="Sum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="TypeId" class ="form-control" asp-items="ViewBag.TypesId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Client" class="control-label"></label>
+                <select asp-for="ClientId" class ="form-control" asp-items="ViewBag.ClientsId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Broker" class="control-label"></label>
+                <select asp-for="BrokerId" class ="form-control" asp-items="ViewBag.BrokersId"></select>
+            </div>
+            <div class="form-group">
+                <input type="hidden" value="@ViewBag.BrokerDocId" name="BrokerId" />
+                <input type="hidden" value="@ViewBag.ClientDocId" name="ClientId" />
+                <input type="submit" value="Створити" class="btn btn-primary" />
+                <a asp-action="Index" asp-route-brokerId="@ViewBag.BrokerDocId" asp-route-clientId="@ViewBag.ClientDocId">Повернутись</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

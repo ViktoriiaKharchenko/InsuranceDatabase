@@ -1,0 +1,25 @@
+﻿@model InsuranceDatabase.Categories
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<hr />
+<div>
+    <h4>Категорія @ViewBag.CategoryName</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Редагувати</a> |
+    <a asp-action="Index">Повернутись</a>
+
+</div>

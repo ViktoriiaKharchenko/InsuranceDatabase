@@ -1,0 +1,51 @@
+﻿@model IEnumerable<InsuranceDatabase.Types>
+
+@{
+    ViewData["Title"] = "Види страхування за категорією";
+}
+
+<h1>Види страхування за категорією @ViewBag.CategoryName </h1>
+
+<p>
+    @Html.ActionLink("Додати вид страхування", "Create", new {categoryId =  @ViewBag.CategoryId })
+</p>
+<table class="table">
+    <thead>
+        <tr class="table-info">
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Info)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="table-light">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Info)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Category)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-categoryId="@item.CategoryId" asp-route-id="@item.Id">Редагувати</a> |
+                    <a asp-action="Details" asp-route-categoryId="@item.CategoryId" asp-route-id="@item.Id">Деталі</a> |
+                    <a asp-action="Delete" asp-route-categoryId="@item.CategoryId" asp-route-id="@item.Id">Видалити</a>
+                </td>
+            </tr>
+        }
+        <p><a asp-action="Brokers" asp-route-categoryId="@ViewBag.CategoryId">Брокери в цій категорії </a></p>
+    </tbody>
+
+</table>
+

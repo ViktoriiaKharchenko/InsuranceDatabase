@@ -1,0 +1,35 @@
+﻿@model InsuranceDatabase.BrokersCategories
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<hr />
+
+<h3>Ви впевнені, що хочете видалити брокера @ViewBag.BrokerName?</h3>
+<div>
+
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Broker)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Broker.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.Category)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" value="@ViewBag.CategoryId" name="CategoryId" />
+        <input type="submit" value="Видалити" class="btn btn-danger" /> |
+        <a asp-action="Index" asp-route-id="@ViewBag.CategoryId">Повернутись</a>
+    </form>
+</div>

@@ -1,0 +1,73 @@
+﻿@model InsuranceDatabase.BrokersCategories
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<hr />
+<h4>@ViewBag.BrokerName</h4>
+<hr />
+<div>
+
+    
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Broker.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Broker.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Broker.Surname)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Broker.Surname)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        @foreach (BrokersCategories category in ViewBag.CategoriesList)
+        {
+            <dd class="col-sm-10">
+                <text>@category.Category.Category</text>
+            </dd>
+            if (ViewBag.CategoriesList[ViewBag.Count - 1] != category)
+            {
+                <dt class="col-sm-2">
+                </dt>
+            }
+        }
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Broker.BirthDate)
+        </dt>
+        <dd class="col-sm-10">
+            <text>@ViewBag.Day.@ViewBag.Month.@ViewBag.Year</text>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Broker.PhoneNum)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Broker.PhoneNum)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Broker.Passport)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Broker.Passport)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Broker.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Broker.Email)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-categoryId="@ViewBag.CategoryId">Редагувати</a> |
+    <a asp-action="Index" asp-route-id="@ViewBag.CategoryId">Повернутись</a>
+</div>

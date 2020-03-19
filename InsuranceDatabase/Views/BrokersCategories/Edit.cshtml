@@ -1,0 +1,45 @@
+﻿@model InsuranceDatabase.BrokersCategories
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<hr />
+
+<h4>@ViewBag.BrokerName</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoriesId"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="BrokerId" class="control-label"></label>
+                <select asp-for="BrokerId" class="form-control" asp-items="ViewBag.BrokersId"></select>
+                <span asp-validation-for="BrokerId" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" value="@ViewBag.CategoryId" name="CategoryId" />
+
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-id="@ViewBag.CategoryId">Повернутись</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

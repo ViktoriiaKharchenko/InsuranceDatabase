@@ -1,0 +1,71 @@
+﻿@model IEnumerable<InsuranceDatabase.Categories>
+
+@{
+    ViewData["Title"] = "Категорія";
+}
+
+<h1>Категорії</h1>
+
+
+<p>
+    <a asp-action="Create">Додати нову категорію</a>
+</p>
+<table class="table">
+    <thead>
+        <tr class="table-info">
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="table-light">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="container" style="width:800px; margin:0 auto;">
+    <div id="chart1"></div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            $.get('/api/Charts/JsonData1', function (jsonData) {
+                //var data = new google.visualization.DataTable();
+                data = google.visualization.arrayToDataTable(jsonData, false);
+                var option = {
+                    title: "Співвідношення послуг та категорій",
+                    width: 700,
+                    height: 550
+
+                };
+                chart = new google.visualization.PieChart(document.getElementById('chart1'));
+                chart.draw(data, option);
+            })
+
+        }
+    </script>
+}
+
+
