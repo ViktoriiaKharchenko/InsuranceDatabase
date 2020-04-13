@@ -9,9 +9,11 @@ using InsuranceDatabase;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InsuranceDatabase.Controllers
 {
+    
     public class CategoriesController : Controller
     {
         private readonly InsuranceContext _context;
@@ -49,6 +51,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: Categories/Create
+        [Authorize(Policy = "RequireBrokerRole")]
         public IActionResult Create()
         {
             return View();
@@ -71,6 +74,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: Categories/Edit/5
+        [Authorize(Policy = "RequireBrokerRole")]
         public async Task<IActionResult> Edit(int? id)
         {
             ViewBag.CategoryName = _context.Categories.Find(id).Category;
@@ -92,6 +96,7 @@ namespace InsuranceDatabase.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Edit(int id, [Bind("Id,Category")] Categories categories)
         {
             if (id != categories.Id)
@@ -123,6 +128,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: Categories/Delete/5
+        [Authorize(Policy = "RequireBrokerRole")]
         public async Task<IActionResult> Delete(int? id)
         {
             ViewBag.CategoryName = _context.Categories.Find(id).Category;
@@ -147,12 +153,23 @@ namespace InsuranceDatabase.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var categories = await _context.Categories.FindAsync(id);
+            var types =  _context.Types.Where(b => b.CategoryId == id).ToList();
+            var docs = _context.Documents.Where(b => b.Type.CategoryId == id).ToList();
+            foreach(var doc in docs)
+            {
+                _context.Documents.Remove(doc);
+            }
+            foreach (var type in types)
+            {
+                _context.Types.Remove(type);
+            }
             _context.Categories.Remove(categories);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         public IActionResult CatValid(string? Category, int? Id)
         {
+            if (Category.Length < 2) return Json(data: "Назва категорії занадто коротка");
             var cat = _context.Categories.Where(b => b.Category == Category).Where(b => b.Id != Id);
             if (cat.Count() > 0) { return Json(data: "Така категорія вже є в базі");
             }

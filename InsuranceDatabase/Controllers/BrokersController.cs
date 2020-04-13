@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InsuranceDatabase;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InsuranceDatabase.Controllers
 {
+    [Authorize(Roles = "admin,broker")] 
     public class BrokersController : Controller
     {
         private readonly InsuranceContext _context;
@@ -151,6 +153,11 @@ namespace InsuranceDatabase.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var brokers = await _context.Brokers.FindAsync(id);
+            var docs = _context.Documents.Where(b => b.BrokerId== id).ToList();
+            foreach (var doc in docs)
+            {
+                _context.Documents.Remove(doc);
+            }
             _context.Brokers.Remove(brokers);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -212,7 +219,7 @@ namespace InsuranceDatabase.Controllers
                 if(Name.Length < 2) { return  Json (data: "Невірний формат данних"); }
                 for(int i =0; i < Name.Length; i++)
                 {
-                    if (Name[i] < 'А' || Name[i] > 'ї') { return Json(data: "Невірний формат данних"); }
+                    if ((Name[i] < 'А' || Name[i] > 'ї')&& Name[i]!='І' ) { return Json(data: "Невірний формат данних"); }
                 }
             }
             return Json(data: true);
@@ -224,7 +231,7 @@ namespace InsuranceDatabase.Controllers
                 if (Surname.Length < 2) {return Json (data: "Невірний формат данних"); }
                 for (int i = 0; i < Surname.Length; i++)
                 {
-                    if (Surname[i] < 'А' || Surname[i] > 'ї') { return Json(data: "Невірний формат данних"); }
+                    if ((Surname[i] < 'А' || Surname[i] > 'ї') && Surname[i] != 'І') { return Json(data: "Невірний формат данних"); }
                 }
             }
             return Json(data: true);

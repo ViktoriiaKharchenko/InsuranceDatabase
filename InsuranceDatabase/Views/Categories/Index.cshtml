@@ -7,9 +7,12 @@
 <h1>Категорії</h1>
 
 
+@if (User.IsInRole("broker") || User.IsInRole("admin"))
+{
 <p>
     <a asp-action="Create">Додати нову категорію</a>
 </p>
+}
 <table class="table">
     <thead>
         <tr class="table-info">
@@ -22,16 +25,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="table-light">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Деталі</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
-                </td>
-            </tr>
+        <tr class="table-light">
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            @if (User.IsInRole("broker") || User.IsInRole("admin")){
+             <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a>|
+                <a asp-action="Details" asp-route-id="@item.Id">Деталі</a>|
+                <a asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+             </td>
+            }
+            else
+            {
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Деталі</a>
+     
+            </td>
+            }
+        </tr>
         }
     </tbody>
 

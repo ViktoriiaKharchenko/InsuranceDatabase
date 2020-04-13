@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Details";
 }
-    <hr />
+<hr />
 <h4>@ViewBag.TypeName</h4>
 <hr />
 <div>
@@ -29,8 +29,17 @@
         </dd>
     </dl>
 </div>
+@if (User.IsInRole("broker") || User.IsInRole("admin"))
+{
+    <div>
 
-<div>
-    <a asp-action="Edit" asp-route-categoryId="@Model.CategoryId" asp-route-id="@Model.Id">Редагувати</a> |
-    <a asp-action="Index" asp-route-id="@ViewBag.CategoryId" asp-route-category="@ViewBag.CategoryName">Повернутись</a>
-</div>
+        <a asp-action="Edit" asp-route-categoryId="@Model.CategoryId" asp-route-id="@Model.Id">Редагувати</a> |
+        <a asp-action="Index" asp-route-id="@ViewBag.CategoryId" asp-route-category="@ViewBag.CategoryName">Повернутись</a>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-action="Index" asp-route-id="@ViewBag.CategoryId" asp-route-category="@ViewBag.CategoryName">Повернутись</a>
+    </div>
+}

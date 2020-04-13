@@ -11,7 +11,8 @@ using Microsoft.Extensions.Hosting;
 using System.Globalization;
 using InsuranceDatabase.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Identity;
+using LibraryMVC.Models;
 
 namespace InsuranceDatabase
 {
@@ -32,6 +33,23 @@ namespace InsuranceDatabase
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<InsuranceContext>(options => options.UseSqlServer(connection));
             services.AddControllersWithViews();
+
+            string connectionIdentity = Configuration.GetConnectionString("IdentityConnection");
+            services.AddDbContext<IdentityContext>(options => options.UseSqlServer(connectionIdentity));
+            services.AddControllersWithViews();
+
+             services.AddIdentity<User, IdentityRole> ()
+              .AddEntityFrameworkStores< IdentityContext> ();
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireBrokerRole",
+                     policy => policy.RequireRole("broker","admin"));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +70,7 @@ namespace InsuranceDatabase
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -10,7 +10,7 @@ namespace InsuranceDatabase
     {
        
         public int Id { get; set; }
-        
+        [Remote(action: "NumValid", controller: "Documents")]
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [StringLength(10, ErrorMessage = "Невірний формат данних")]
         [Display(Name = "№ Договору")]

@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InsuranceDatabase;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InsuranceDatabase.Controllers
 {
+    
     public class TypesController : Controller
     {
         private readonly InsuranceContext _context;
@@ -51,6 +53,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: Types/Create
+        [Authorize(Policy = "RequireBrokerRole")]
         public IActionResult Create(int categoryId)
         {
          
@@ -78,6 +81,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: Types/Edit/5
+        [Authorize(Policy = "RequireBrokerRole")]
         public async Task<IActionResult> Edit(int? categoryId,int? id)
         {
             
@@ -136,6 +140,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: Types/Delete/5
+        [Authorize(Policy = "RequireBrokerRole")]
         public async Task<IActionResult> Delete(int? categoryId , int? id)
         {
             if (id == null)
@@ -162,13 +167,19 @@ namespace InsuranceDatabase.Controllers
         {
             ViewBag.CategoryId = categoryId;
             var types = await _context.Types.FindAsync(id);
+            var docs = _context.Documents.Where(b => b.TypeId== id).ToList();
+            foreach (var doc in docs)
+            {
+                _context.Documents.Remove(doc);
+            }
             _context.Types.Remove(types);
             await _context.SaveChangesAsync();
-            //return RedirectToAction(nameof(Index));
+           
             return RedirectToAction("Index", "Types", new { id = categoryId, category = _context.Categories.Where(d => d.Id == categoryId).FirstOrDefault().Category });
         }
         public IActionResult TypeValid(string? Type, int? Id)
         {
+            if (Type.Length < 2) return Json(data: "Назва типу занадто коротка");
             var type = _context.Types.Where(b => b.Type == Type).Where(b => b.Id != Id);
             if (type.Count() > 0)
             {

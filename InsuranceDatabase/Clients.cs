@@ -23,6 +23,7 @@ namespace InsuranceDatabase
         public string Surname { get; set; }
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]
         [Remote(action: "DateValid", controller: "Clients")]
+        [DataType(DataType.Date)]
         [Display(Name = "Дата народження")]
         public DateTime BirthDate { get; set; }
         [Required(ErrorMessage = "Поле не повинно бути порожнім")]

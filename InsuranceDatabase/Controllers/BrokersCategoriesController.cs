@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InsuranceDatabase;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InsuranceDatabase.Controllers
 {
+   
     public class BrokersCategoriesController : Controller
     {
         private readonly InsuranceContext _context;
@@ -28,6 +30,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: BrokersCategories/Details/5
+        [Authorize(Policy = "RequireBrokerRole")]
         public async Task<IActionResult> Details(int? id, int? categoryId)
         {
             int BrokerId = _context.BrokersCategories.Find(id).BrokerId;
@@ -55,6 +58,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: BrokersCategories/Create
+        [Authorize(Policy = "RequireBrokerRole")]
         public IActionResult Create( int? categoryId)
         {
            // ViewBag.BrokerId = brokerId;
@@ -83,6 +87,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: BrokersCategories/Edit/5
+        [Authorize(Policy = "RequireBrokerRole")]
         public async Task<IActionResult> Edit(int? id, int? categoryId)
         {
             
@@ -146,6 +151,7 @@ namespace InsuranceDatabase.Controllers
         }
 
         // GET: BrokersCategories/Delete/5
+        [Authorize(Policy = "RequireBrokerRole")]
         public async Task<IActionResult> Delete(int? categoryId , int? id)
         {
             if (id == null)

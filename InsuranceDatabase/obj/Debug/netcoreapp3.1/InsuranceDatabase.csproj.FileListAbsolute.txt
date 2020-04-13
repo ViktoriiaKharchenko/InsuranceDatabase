@@ -189,7 +189,6 @@ C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcore
 C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcoreapp3.1\Razor\Views\Clients\Edit.cshtml.g.cs
 C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcoreapp3.1\Razor\Views\Clients\Index.cshtml.g.cs
 C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\libman.json
-C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcoreapp3.1\InsuranceDatabase.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\ClosedXML.dll
 C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\DocumentFormat.OpenXml.dll
 C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\ExcelNumberFormat.dll
@@ -202,3 +201,17 @@ C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcore
 C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard1.3\System.Data.SqlClient.dll
 C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Drawing.Common.dll
 C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Drawing.Common.dll
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcoreapp3.1\Razor\Views\Roles\Index.cshtml.g.cs
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcoreapp3.1\Razor\Views\Roles\UserList.cshtml.g.cs
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcoreapp3.1\Razor\Views\Roles\Edit.cshtml.g.cs
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\Microsoft.Extensions.PlatformAbstractions.dll
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\Nancy.dll
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\bin\Debug\netcoreapp3.1\Nancy.Authentication.Forms.dll
+C:\Users\Boss\source\repos\InsuranceDatabase\InsuranceDatabase\obj\Debug\netcoreapp3.1\InsuranceDatabase.MvcApplicationPartsAssemblyInfo.cache

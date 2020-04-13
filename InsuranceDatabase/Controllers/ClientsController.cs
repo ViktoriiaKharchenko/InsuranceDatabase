@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InsuranceDatabase;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InsuranceDatabase.Controllers
 {
+    [Authorize(Roles = "admin,broker")] 
     public class ClientsController : Controller
     {
         private readonly InsuranceContext _context;
@@ -147,6 +149,11 @@ namespace InsuranceDatabase.Controllers
         {
             var clients = await _context.Clients.FindAsync(id);
             _context.Clients.Remove(clients);
+            var docs = _context.Documents.Where(b => b.ClientId == id).ToList();
+            foreach (var doc in docs)
+            {
+                _context.Documents.Remove(doc);
+            }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

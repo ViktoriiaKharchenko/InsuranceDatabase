@@ -5,10 +5,12 @@
 }
 
 <h1>Брокери в категорії @ViewBag.CategoryName</h1>
-
-<p>
-    <a asp-action="Create"asp-route-categoryId="@ViewBag.CategoryId">Додати брокера до категорії</a>
-</p>
+@if (User.IsInRole("broker") || User.IsInRole("admin"))
+{
+    <p>
+        <a asp-action="Create" asp-route-categoryId="@ViewBag.CategoryId">Додати брокера до категорії</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr class="table-info">
@@ -22,7 +24,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr class="table-light">
             <td>
                 @Html.DisplayFor(modelItem => item.Broker.Name)
@@ -30,12 +33,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Broker.Surname)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" asp-route-categoryId="@ViewBag.CategoryId">Редагувати</a> |
-                <a asp-action="Details" asp-route-id="@item.Id" asp-route-categoryId="@ViewBag.CategoryId">Деталі</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" asp-route-categoryId="@ViewBag.CategoryId">Видалити</a>
-            </td>
-        </tr>
-}
+            @if (User.IsInRole("broker") || User.IsInRole("admin"))
+            {
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" asp-route-categoryId="@ViewBag.CategoryId">Редагувати</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" asp-route-categoryId="@ViewBag.CategoryId">Деталі</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" asp-route-categoryId="@ViewBag.CategoryId">Видалити</a>
+                </td>
+            }
+            else
+            {
+              <td></td>
+                    }
+
+            </tr>
+        }
     </tbody>
 </table>

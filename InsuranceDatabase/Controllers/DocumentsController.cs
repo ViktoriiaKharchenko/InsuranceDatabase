@@ -9,9 +9,11 @@ using InsuranceDatabase;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InsuranceDatabase.Controllers
 {
+    [Authorize(Roles = "admin,broker")] 
     public class DocumentsController : Controller
     {
         private readonly InsuranceContext _context;
@@ -212,10 +214,25 @@ namespace InsuranceDatabase.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Documents", new { brokerId = brokerId, clientId = clientId });
         }
-      
 
+        public IActionResult NumValid(String? Number)
+        {
+            if (Number.Length != 10) return Json(data: "Номер документа занадто которкий");
 
-        public IActionResult DateValid(DateTime? Date)
+            for (int i = 0; i < Number.Length; i++)
+            {
+                if (Number[i] < '0' || Number[i] > '9')
+                {
+                    return Json(data: "Невірний формат данних");
+                }
+            }
+             return Json(data: true);
+        }
+
+    
+        
+
+            public IActionResult DateValid(DateTime? Date)
         {
             char[] param = { '.', '/', ':', ' ' };
             string birthDate = Date.ToString();
@@ -269,6 +286,7 @@ namespace InsuranceDatabase.Controllers
                                     newcat = new Categories();
                                     newcat.Category = worksheet.Name;
                                     _context.Categories.Add(newcat);
+                                    await _context.SaveChangesAsync();
                                 }
 
                                 foreach (IXLRow row in worksheet.RowsUsed().Skip(1))
@@ -296,7 +314,7 @@ namespace InsuranceDatabase.Controllers
                                             throw new Exception("Невірно вказаний номер документа в категорії " + worksheet.Name + " в " + row.RowNumber().ToString() + " рядку");
                                         }
                                         
-                                        //doc.Type.Type = row.Cell(2).Value.ToString();
+                                        doc.Type.Type = row.Cell(2).Value.ToString();
                                        
                                         var t = (from ty in _context.Types
                                                  where ty.Type.Equals(row.Cell(2).Value.ToString())
@@ -307,45 +325,68 @@ namespace InsuranceDatabase.Controllers
                                         }
                                         else
                                         {
-                                            throw new Exception("Невірий тип договору в категорії " + worksheet.Name + " в " + row.RowNumber().ToString() + " рядку");
+                                            var cat = (from ca in _context.Categories
+                                                     where ca.Category.Equals(newcat.Category) 
+                                                     select ca).ToList();
+                                            doc.Type.Category = cat[0];
+                                            _context.Types.Add(doc.Type);
+                                            await _context.SaveChangesAsync();
+                                            //throw new Exception("Невірий тип договору в категорії " + worksheet.Name + " в " + row.RowNumber().ToString() + " рядку");
 
                                         }
 
                                         //doc.Broker.FullName = row.Cell(3).Value.ToString();
                                         char[] param = { ' ' };
-                                        string name = row.Cell(3).Value.ToString().Split(param)[0];
-                                        string surname = row.Cell(3).Value.ToString().Split(param)[1];
-                                        var a = (from br in _context.Brokers
-                                                 where br.Name.Equals(name)&& br.Surname.Equals(surname)
-                                                 select br).ToList();
-                                        if (a.Count > 0)
+                                        try
                                         {
-                                            doc.Broker = a[0];
+                                            string name = row.Cell(3).Value.ToString().Split(param)[0];
+                                            string surname = row.Cell(3).Value.ToString().Split(param)[1];
+                                            var a = (from br in _context.Brokers
+                                                     where br.Name.Equals(name) && br.Surname.Equals(surname)
+                                                     select br).ToList();
+                                            if (a.Count > 0)
+                                            {
+                                                doc.Broker = a[0];
+                                            }
+                                            else
+                                            {
+                                                throw new Exception("Невівне ім'я брокера в категорії " + worksheet.Name + " в " + row.RowNumber().ToString() + " рядку" +
+                                                    "Такого брокера немає в базі");
+                                            }
                                         }
-                                        else
+                                        catch(Exception e)
                                         {
                                             throw new Exception("Невівне ім'я брокера в категорії " + worksheet.Name + " в " + row.RowNumber().ToString() + " рядку" +
-                                                "Такого брокера немає в базі");
+                                                   "Такого брокера немає в базі");
                                         }
 
 
                                         // doc.Client.FullName = row.Cell(4).Value.ToString();
-                                        
-                                        name = row.Cell(4).Value.ToString().Split(param)[0];
-                                        surname = row.Cell(4).Value.ToString().Split(param)[1];
-                                        var cli = (from clnt in _context.Clients
-                                                   where clnt.Name.Equals(name)&& clnt.Surname.Equals(surname)
-                                                   select clnt).ToList();
-                                        if (cli.Count > 0)
+                                        try
                                         {
-                                            doc.Client = cli[0];
-                                        }
-                                        else
-                                        {
-                                            throw new Exception("Невірне ім'я клієнта в категорії " + worksheet.Name+ " в "  + row.RowNumber().ToString() + " рядку." +
-                                                " Такого клієнта немає в базі");
+                                           string name = row.Cell(4).Value.ToString().Split(param)[0];
+                                           string surname = row.Cell(4).Value.ToString().Split(param)[1];
 
+                                            var cli = (from clnt in _context.Clients
+                                                       where clnt.Name.Equals(name) && clnt.Surname.Equals(surname)
+                                                       select clnt).ToList();
+                                            if (cli.Count > 0)
+                                            {
+                                                doc.Client = cli[0];
+                                            }
+                                            else
+                                            {
+                                                throw new Exception("Невірне ім'я клієнта в категорії " + worksheet.Name + " в " + row.RowNumber().ToString() + " рядку." +
+                                                    " Такого клієнта немає в базі");
+
+                                            }
                                         }
+                                        catch(Exception e)
+                                        {
+                                            throw new Exception("Невірне ім'я клієнта в категорії " + worksheet.Name + " в " + row.RowNumber().ToString() + " рядку." +
+                                                    " Такого клієнта немає в базі");
+                                        }
+
                                         try
                                         {
                                             doc.Date = Convert.ToDateTime(row.Cell(5).Value);
@@ -366,10 +407,22 @@ namespace InsuranceDatabase.Controllers
                                         var d = (from dd in _context.Documents
                                                  where dd.Number.Equals(doc.Number)
                                                  select dd).ToList();
+
                                         if (d.Count == 0)
                                         {
                                             _context.Documents.Add(doc);
                                         }
+                                        else
+                                        {
+                                            _context.Documents.Find(d[0].Id).Type = doc.Type;
+                                            _context.Documents.Find(d[0].Id).Broker = doc.Broker;
+                                            _context.Documents.Find(d[0].Id).Client = doc.Client;
+                                            _context.Documents.Find(d[0].Id).Date = doc.Date;
+                                            _context.Documents.Find(d[0].Id).Sum = doc.Sum;
+                                        }
+                                       
+                                        
+                                        
                                     }
                                     catch (Exception e)
                                     {

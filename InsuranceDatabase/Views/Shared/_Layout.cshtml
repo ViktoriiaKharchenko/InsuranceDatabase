@@ -29,21 +29,68 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor02">
-                    <ul class="navbar-nav mr-auto">
+                    @if (User.IsInRole("broker") || User.IsInRole("admin"))
+                    {
+                        <ul class="navbar-nav mr-auto">
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Categories" asp-action="Index">Категорії<span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Brokers" asp-action="Index">Брокери</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Documents" asp-action="Index">Договори</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Clients" asp-action="Index">Клієнти</a>
-                        </li>
-                    </ul>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Categories" asp-action="Index">Категорії<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Brokers" asp-action="Index">Брокери</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Documents" asp-action="Index">Договори</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Clients" asp-action="Index">Клієнти</a>
+                            </li>
+                            @if (User.IsInRole("admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Roles" asp-action="UserList">Керування ролями</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav mr-auto">
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Categories" asp-action="Index">Категорії<span class="sr-only">(current)</span></a>
+                            </li>
+
+                        </ul>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                
+
+                        <ul class="navbar-nav">
+                            <li><b><@User.Identity.Name></b></li>
+                            <li class="nav-item">
+                                <form method="post" asp-controller="Account" asp-action="Logout">
+                                    <input type="submit" value="Вихід" class="makealink" asp-controller="Account" asp-action="Logout" />
+                                    <span class="sr-only">(current)</span>
+                                </form>
+                            </li>
+                        </ul>
+
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav">
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Register">Реєстрація<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Вхід<span class="sr-only">(current)</span></a>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </div>
         </nav>

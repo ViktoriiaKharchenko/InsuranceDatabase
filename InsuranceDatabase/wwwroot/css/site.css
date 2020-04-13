@@ -40,6 +40,13 @@ body {
     background-color:lightcyan !impportant
 }
 
+.makealink {
+    background: transparent;
+    border: 0; !important
+    text-decoration:underline;
+    color: white;
+    cursor: pointer;
+}
 .border-top {
     border-top: 1px solid #e5e5e5;
 }
