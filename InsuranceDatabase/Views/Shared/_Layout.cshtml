@@ -31,27 +31,30 @@
                 <div class="collapse navbar-collapse" id="navbarColor02">
                     @if (User.IsInRole("broker") || User.IsInRole("admin"))
                     {
-                        <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav mr-auto">
 
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Categories" asp-action="Index">Категорії<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Brokers" asp-action="Index">Брокери</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Documents" asp-action="Index">Договори</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Clients" asp-action="Index">Клієнти</a>
+                        </li>
+                        @if (User.IsInRole("admin"))
+                        {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Categories" asp-action="Index">Категорії<span class="sr-only">(current)</span></a>
+                                <a class="nav-link" asp-controller="Roles" asp-action="Index">Керування ролями</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Brokers" asp-action="Index">Брокери</a>
+                                <a class="nav-link" asp-controller="Users" asp-action="Index">Список користувачів</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Documents" asp-action="Index">Договори</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Clients" asp-action="Index">Клієнти</a>
-                            </li>
-                            @if (User.IsInRole("admin"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Roles" asp-action="UserList">Керування ролями</a>
-                                </li>
-                            }
-                        </ul>
+                        }
+                    </ul>
                     }
                     else
                     {

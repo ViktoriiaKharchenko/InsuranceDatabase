@@ -42,6 +42,18 @@
               "target": "Package",
               "version": "[0.94.2, )"
             },
+            "FluentEmail.MailKit": {
+              "target": "Package",
+              "version": "[2.7.0, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.6.0, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.3, )"
